@@ -1,0 +1,429 @@
+/* ============================================
+   SCROLL ANIMATIONS - Profissional
+   ============================================ */
+
+/* Animações Fade */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Animações Scale */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.85);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes scaleUp {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Animações Rotate */
+@keyframes rotateIn {
+    from {
+        opacity: 0;
+        transform: rotate(-10deg) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: rotate(0) scale(1);
+    }
+}
+
+/* Animação Bounce Subtle */
+@keyframes bounceInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(60px);
+    }
+    50% {
+        opacity: 1;
+    }
+    65% {
+        transform: translateY(-5px);
+    }
+    80% {
+        transform: translateY(3px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+/* Animação Slide */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Animação Flip */
+@keyframes flipInX {
+    from {
+        opacity: 0;
+        transform: perspective(400px) rotateX(90deg);
+    }
+    to {
+        opacity: 1;
+        transform: perspective(400px) rotateX(0deg);
+    }
+}
+
+/* Animação Float */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Classes para aplicar as animações */
+.scroll-animate {
+    opacity: 0;
+    animation-fill-mode: both;
+    animation-play-state: paused;
+}
+
+.scroll-animate.in-view,
+.scroll-animate.is-visible {
+    animation-fill-mode: both;
+    animation-play-state: running;
+    opacity: 1;
+}
+
+/* Timing variations */
+.scroll-animate-slow {
+    animation-duration: 1.2s;
+}
+
+.scroll-animate-normal {
+    animation-duration: 0.8s;
+}
+
+.scroll-animate-fast {
+    animation-duration: 0.6s;
+}
+
+/* Easing variations */
+.scroll-animate-ease-out {
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.scroll-animate-ease-in-out {
+    animation-timing-function: cubic-bezier(0.43, 0.13, 0.23, 0.96);
+}
+
+.scroll-animate-ease-in {
+    animation-timing-function: cubic-bezier(0.42, 0, 1, 1);
+}
+
+/* Aplicar animações específicas com delays */
+.fade-up {
+    animation-name: fadeInUp;
+}
+
+.fade-down {
+    animation-name: fadeInDown;
+}
+
+.fade-left {
+    animation-name: fadeInLeft;
+}
+
+.fade-right {
+    animation-name: fadeInRight;
+}
+
+.scale-in {
+    animation-name: scaleIn;
+}
+
+.scale-up {
+    animation-name: scaleUp;
+}
+
+.rotate-in {
+    animation-name: rotateIn;
+}
+
+.bounce-in {
+    animation-name: bounceInUp;
+}
+
+.slide-left {
+    animation-name: slideInLeft;
+}
+
+.slide-right {
+    animation-name: slideInRight;
+}
+
+.flip-x {
+    animation-name: flipInX;
+}
+
+/* Delays para staggered animations */
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
+.delay-6 { animation-delay: 0.6s; }
+.delay-7 { animation-delay: 0.7s; }
+.delay-8 { animation-delay: 0.8s; }
+
+/* Sections com animações */
+.section-animate {
+    opacity: 0;
+}
+
+.section-animate.in-view {
+    animation: fadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Cards com hover effect após aparecer */
+.card-scroll {
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.card-scroll.in-view {
+    opacity: 1;
+    animation: scaleUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.card-item {
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    will-change: transform, opacity;
+}
+
+.card-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.13);
+}
+
+.card-scroll:hover {
+    transform: translateY(-8px);
+    box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* Animação para listas */
+.list-item-animate {
+    opacity: 0;
+}
+
+.list-item-animate.in-view {
+    animation: slideInLeft 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Text animations */
+.text-animate {
+    opacity: 0;
+}
+
+.text-animate.in-view {
+    animation: fadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Image animations */
+.image-animate {
+    opacity: 0;
+}
+
+.image-animate.in-view {
+    animation: scaleIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Button animations */
+.button-animate {
+    opacity: 0;
+}
+
+.button-animate.in-view {
+    animation: bounceInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Counter animation */
+.counter-animate {
+    opacity: 0;
+}
+
+.counter-animate.in-view {
+    animation: fadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Animação de linha */
+@keyframes lineIn {
+    from {
+        width: 0;
+        opacity: 0;
+    }
+    to {
+        width: 100%;
+        opacity: 1;
+    }
+}
+
+.line-animate {
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    width: 0;
+    margin: 15px 0;
+}
+
+.line-animate.in-view {
+    animation: lineIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Parallax effect */
+.parallax-bg {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Sticky scroll animations */
+.sticky-animate {
+    position: relative;
+}
+
+/* Pulse animation */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(174, 0, 255, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(174, 0, 255, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(174, 0, 255, 0);
+    }
+}
+
+.pulse-animate {
+    animation: pulse 2s infinite;
+}
+
+/* Glow effect */
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 5px rgba(174, 0, 255, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(174, 0, 255, 0.8);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(174, 0, 255, 0.5);
+    }
+}
+
+.glow-animate {
+    animation: glow 2s ease-in-out infinite;
+}
+
+/* Shake effect */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+.shake-animate:hover {
+    animation: shake 0.5s ease-in-out;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .scroll-animate-slow {
+        animation-duration: 1s;
+    }
+    
+    .scroll-animate-normal {
+        animation-duration: 0.6s;
+    }
+    
+    .scroll-animate-fast {
+        animation-duration: 0.4s;
+    }
+    
+    .card-scroll:hover {
+        transform: translateY(-4px);
+    }
+}

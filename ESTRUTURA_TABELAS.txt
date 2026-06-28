@@ -1,0 +1,279 @@
+================================================================================
+                    ESTRUTURA DE TABELAS - SITE DE PEDIDOS
+                         Para Integração com IA Externa
+================================================================================
+
+DATA: 25/03/2026
+PROJETO: Açaí Correto
+DESCRIÇÃO: Todas as tabelas e relacionamentos do banco de dados para sincronização
+           entre site de pedidos e dashboard
+
+================================================================================
+1. TABELA: CUSTOMERS (Clientes)
+================================================================================
+
+Estrutura:
+  - id: uuid (PRIMARY KEY)
+  - name: text (obrigatório)
+  - phone: text
+  - email: text
+  - metadata: jsonb (dados extras)
+  - created_at: timestamptz (automático)
+
+Exemplo:
+{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "name": "Cliente Teste",
+  "phone": "5591999999999",
+  "email": "cliente@teste.com",
+  "metadata": {
+    "preferencia": "sem lactose"
+  },
+  "created_at": "2026-03-18T10:00:00Z"
+}
+
+================================================================================
+2. TABELA: PRODUCTS (Produtos)
+================================================================================
+
+Estrutura:
+  - id: serial (PRIMARY KEY)
+  - sku: text (código único do produto)
+  - name: text (obrigatório)
+  - description: text
+  - price_cents: integer (preço em centavos - ex: 1500 = R$ 15,00)
+  - currency: text (padrão: 'BRL')
+  - active: boolean (produção está ativo?)
+  - created_at: timestamptz (automático)
+
+Exemplo:
+{
+  "id": 1,
+  "sku": "ACAI-G-001",
+  "name": "Açaí Grande",
+  "description": "300ml - Açaí com xarope e granola",
+  "price_cents": 1500,
+  "currency": "BRL",
+  "active": true,
+  "created_at": "2026-03-18T09:00:00Z"
+}
+
+================================================================================
+3. TABELA: ORDERS (Pedidos)
+================================================================================
+
+Estrutura:
+  - id: uuid (PRIMARY KEY)
+  - customer_id: uuid (FOREIGN KEY → customers)
+  - status: text (valores: 'pending', 'completed', 'cancelled', etc)
+  - total_cents: integer (total em centavos)
+  - payment_status: text (valores: 'unpaid', 'paid', 'pending')
+  - delivery_info: jsonb (dados de entrega)
+  - meta: jsonb (metadados extras)
+  - created_at: timestamptz (automático)
+
+Índices:
+  - idx_orders_customer_id
+  - idx_orders_status
+
+Exemplo:
+{
+  "id": "8f14e45f-ceea-4a45-9e1e-1234567890ab",
+  "customer_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "status": "pending",
+  "total_cents": 1800,
+  "payment_status": "unpaid",
+  "delivery_info": {
+    "address": "Rua Exemplo, 123",
+    "city": "Recife",
+    "zipcode": "50000-000",
+    "instructions": "Tocar a campainha"
+  },
+  "meta": {
+    "canal": "site"
+  },
+  "created_at": "2026-03-18T10:05:00Z"
+}
+
+================================================================================
+4. TABELA: ORDER_ITEMS (Itens do Pedido)
+================================================================================
+
+Estrutura:
+  - id: serial (PRIMARY KEY)
+  - order_id: uuid (FOREIGN KEY → orders, deletar cascata)
+  - product_id: integer (FOREIGN KEY → products)
+  - product_name: text (nome do produto no momento da venda)
+  - quantity: integer (quantidade)
+  - unit_price_cents: integer (preço unitário em centavos)
+  - options: jsonb (opções do pedido: tamanho, toppings, etc)
+  - created_at: timestamptz (automático)
+
+Exemplo:
+{
+  "id": 1,
+  "order_id": "8f14e45f-ceea-4a45-9e1e-1234567890ab",
+  "product_id": 1,
+  "product_name": "Açaí Grande",
+  "quantity": 1,
+  "unit_price_cents": 1500,
+  "options": {
+    "tamanho": "G",
+    "toppings": ["granola"]
+  },
+  "created_at": "2026-03-18T10:05:00Z"
+}
+
+================================================================================
+5. TABELA: PAYMENTS (Pagamentos)
+================================================================================
+
+Estrutura:
+  - id: uuid (PRIMARY KEY)
+  - order_id: uuid (FOREIGN KEY → orders, deletar cascata)
+  - amount_cents: integer (valor em centavos)
+  - method: text (forma de pagamento: pix, cartao, dinheiro)
+  - provider_response: jsonb (resposta do provedor de pagamento)
+  - status: text (valores: 'pending', 'completed', 'failed')
+  - created_at: timestamptz (automático)
+
+Exemplo:
+{
+  "id": "b6a9f0f9-6e4a-4d8a-812d-abcdef123456",
+  "order_id": "8f14e45f-ceea-4a45-9e1e-1234567890ab",
+  "amount_cents": 1800,
+  "method": "pix",
+  "provider_response": {
+    "txid": null
+  },
+  "status": "pending",
+  "created_at": "2026-03-18T10:05:00Z"
+}
+
+================================================================================
+6. TABELA: ADMINS (Administradores)
+================================================================================
+
+Estrutura:
+  - id: uuid (PRIMARY KEY)
+  - email: text (email único)
+  - name: text (nome do admin)
+  - role: text (permissão: 'admin', 'editor', etc)
+  - metadata: jsonb (dados extras)
+  - created_at: timestamptz (automático)
+
+Exemplo:
+{
+  "id": "d2d2d2d2-d2d2-42d2-a2d2-d2d2d2d2d2d2",
+  "email": "admin@acaicorreto.com",
+  "name": "Admin Principal",
+  "role": "admin",
+  "metadata": {
+    "can_access_orders": true
+  },
+  "created_at": "2026-03-18T08:00:00Z"
+}
+
+================================================================================
+RELACIONAMENTOS DO BANCO
+================================================================================
+
+customers
+    ↓ (one-to-many)
+orders
+    ↓ (one-to-many)
+order_items → products
+    
+orders
+    ↓ (one-to-many)
+payments
+
+VIEW DISPONÍVEL: vw_orders_full
+  → Agrega tudo (orders + customers + order_items) em uma única consulta
+  → Ideal para o dashboard exibir pedidos completos
+
+================================================================================
+PAYLOAD EXEMPLO COMPLETO PARA INTEGRAÇÃO
+================================================================================
+
+{
+  "cliente": "Nome do Cliente",
+  "telefone": "5591999999999",
+  "email": "cliente@email.com",
+  "produtos": [
+    {
+      "id": 1,
+      "name": "Açaí Grande",
+      "price": 15.00,
+      "qntd": 1,
+      "options": {
+        "tamanho": "G",
+        "toppings": ["granola", "leite condensado"]
+      }
+    },
+    {
+      "id": 2,
+      "name": "Topping Extra - Leite Condensado",
+      "price": 3.00,
+      "qntd": 1,
+      "options": {}
+    }
+  ],
+  "total": 18.00,
+  "cupom": null,
+  "endereco": "Rua Exemplo, 123",
+  "city": "Recife",
+  "zipcode": "50000-000",
+  "status": "pending",
+  "payment_status": "unpaid",
+  "payment_method": "pix",
+  "instructions": "Tocar a campainha"
+}
+
+================================================================================
+FLUXO DE INTEGRAÇÃO RECOMENDADO
+================================================================================
+
+1. RECEBER PEDIDO (via site):
+   - Criar registro em CUSTOMERS (se novo)
+   - Criar registro em ORDERS
+   - Criar registros em ORDER_ITEMS (1+ itens linha por linha)
+   - Criar registro em PAYMENTS
+
+2. SINCRONIZAR COM DASHBOARD:
+   - Ler pedidos com status = 'pending'
+   - Atualizar status quando completado
+   - Notificar cliente sobre mudanças
+
+3. REPLICAR DADOS:
+   - PRODUCTS: mais crítico manter sincronizado
+   - ORDERS: sincronizar em tempo real
+   - PAYMENTS: sincronizar após confirmação
+
+================================================================================
+ÍNDICES E PERFORMANCE
+================================================================================
+
+Índices criados:
+  - idx_orders_customer_id (buscar pedidos por cliente)
+  - idx_orders_status (filtrar por status)
+  - idx_products_active (listar apenas produtos ativos)
+  - idx_pedidos_data (ordenar por data)
+
+Triggers automáticos:
+  1. trg_order_items_snapshot: copia product_name e price ao inserir
+  2. trg_update_order_total: recalcula total do pedido automaticamente
+
+================================================================================
+CONSIDERAÇÕES IMPORTANTES
+================================================================================
+
+✓ Todos os IDs UUID no banco usam gen_random_uuid()
+✓ Preços em CENTAVOS (divide por 100 para exibir)
+✓ Timestamps em UTC (timestamptz)
+✓ Suporta metadados flexíveis via JSONB
+✓ Deletar cliente não deleta pedidos (ON DELETE SET NULL)
+✓ Deletar pedido deleta itens + pagamentos (ON DELETE CASCADE)
+✓ View vw_orders_full já agrega tudo para o dashboard
+
+================================================================================

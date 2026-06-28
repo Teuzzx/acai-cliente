@@ -1,0 +1,590 @@
+/* ============================================================
+   MODAL INGREDIENTES - NOVO DESIGN PROFISSIONAL
+   ============================================================ */
+
+.modal-ingredientes-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+    backdrop-filter: blur(3px);
+}
+
+.modal-ingredientes-container.hidden {
+    display: none !important;
+}
+
+.modal-ingredientes-content {
+    background: #ffffff;
+    border-radius: 20px;
+    max-width: 850px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 75px rgba(0, 0, 0, 0.35), 0 10px 30px rgba(0, 0, 0, 0.15);
+    animation: slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* HEADER */
+.modal-ingredientes-header {
+    background: linear-gradient(135deg, #ae00ff 0%, #ff6b6b 100%);
+    color: white;
+    padding: 35px 30px;
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.modal-ingredientes-header h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    letter-spacing: -0.5px;
+}
+
+.modal-ingredientes-header i {
+    font-size: 36px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.modal-ingredientes-close {
+    background: rgba(255, 255, 255, 0.25);
+    border: none;
+    color: white;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    flex-shrink: 0;
+}
+
+.modal-ingredientes-close:hover {
+    background: rgba(255, 255, 255, 0.35);
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* BODY */
+.modal-ingredientes-body {
+    padding: 40px 30px;
+    background: #fafbfc;
+}
+
+.ingredientes-section {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 2px solid #e8eaed;
+}
+
+.ingredientes-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.ingredientes-section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    gap: 18px;
+}
+
+.ingredientes-section-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: white;
+    font-weight: bold;
+    flex-shrink: 0;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Cores por categoria */
+.ingredientes-section.bases .ingredientes-section-icon {
+    background: linear-gradient(135deg, #FF6B6B 0%, #FF8E72 100%);
+}
+
+.ingredientes-section.frutas .ingredientes-section-icon {
+    background: linear-gradient(135deg, #4ECDC4 0%, #44B7A3 100%);
+}
+
+.ingredientes-section.coberturas .ingredientes-section-icon {
+    background: linear-gradient(135deg, #FFD93D 0%, #FFA500 100%);
+}
+
+.ingredientes-section.complementos .ingredientes-section-icon {
+    background: linear-gradient(135deg, #A8E6CF 0%, #56AB91 100%);
+}
+
+.ingredientes-section-title {
+    flex: 1;
+}
+
+.ingredientes-section-title h3 {
+    margin: 0 0 6px 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a1a;
+    letter-spacing: -0.3px;
+}
+
+.ingredientes-section-title small {
+    color: #7a7a7a;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.ingredientes-counter {
+    background: white;
+    padding: 10px 18px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #ae00ff;
+    min-width: 140px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 2px solid #e8eaed;
+}
+
+/* GRID DE INGREDIENTES */
+.ingredientes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    gap: 15px;
+}
+
+.ingrediente-card {
+    position: relative;
+    border-radius: 16px;
+    border: 2.5px solid #e8eaed;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background: white;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.ingrediente-card:hover {
+    border-color: #ae00ff;
+    transform: translateY(-5px);
+    box-shadow: 0 12px 32px rgba(174, 0, 255, 0.2);
+}
+
+.ingrediente-card input[type="checkbox"] {
+    display: none;
+}
+
+.ingrediente-card input[type="checkbox"]:checked + .ingrediente-label {
+    background: linear-gradient(135deg, #ae00ff 0%, #ff6b6b 100%);
+    color: white;
+    border-color: #ae00ff;
+}
+
+.ingrediente-card input[type="checkbox"]:disabled + .ingrediente-label {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background: #f5f5f5;
+    color: #999;
+}
+
+.ingrediente-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 12px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    min-height: 90px;
+    border-radius: 13px;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    line-height: 1.4;
+}
+
+/* FOOTER */
+.modal-ingredientes-footer {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    padding: 25px 30px;
+    border-top: 2px solid #e8eaed;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-radius: 0 0 20px 20px;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.06);
+}
+
+.ingredientes-selecionados-resumo {
+    font-size: 15px;
+    color: #333;
+    font-weight: 500;
+}
+
+.ingredientes-selecionados-resumo strong {
+    color: #ae00ff;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.modal-ingredientes-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-ingredientes {
+    padding: 13px 28px;
+    border-radius: 25px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-size: 16px;
+    letter-spacing: -0.3px;
+}
+
+.btn-ingredientes-cancelar {
+    background: #f0f0f0;
+    color: #666;
+    border: 2px solid #e0e0e0;
+}
+
+.btn-ingredientes-cancelar:hover {
+    background: #e5e5e5;
+    border-color: #d0d0d0;
+    transform: translateY(-2px);
+}
+
+.btn-ingredientes-confirmar {
+    background: linear-gradient(135deg, #ae00ff 0%, #ff6b6b 100%);
+    color: white;
+    min-width: 220px;
+    box-shadow: 0 8px 20px rgba(174, 0, 255, 0.25);
+}
+
+.btn-ingredientes-confirmar:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(174, 0, 255, 0.35);
+}
+
+.btn-ingredientes-confirmar:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .modal-ingredientes-header {
+        padding: 25px 20px;
+    }
+
+    .modal-ingredientes-header h2 {
+        font-size: 26px;
+        gap: 10px;
+    }
+
+    .modal-ingredientes-header i {
+        font-size: 28px;
+    }
+
+    .modal-ingredientes-close {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+
+    .modal-ingredientes-body {
+        padding: 25px 20px;
+    }
+
+    .ingredientes-section {
+        margin-bottom: 30px;
+        padding-bottom: 30px;
+    }
+
+    .ingredientes-section-header {
+        margin-bottom: 18px;
+        gap: 12px;
+    }
+
+    .ingredientes-section-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 24px;
+    }
+
+    .ingredientes-section-title h3 {
+        font-size: 18px;
+    }
+
+    .ingredientes-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+    }
+
+    .ingrediente-card {
+        border-radius: 14px;
+    }
+
+    .ingrediente-label {
+        padding: 14px 10px;
+        font-size: 13px;
+        min-height: 80px;
+    }
+
+    .modal-ingredientes-footer {
+        flex-direction: column;
+        padding: 20px;
+        gap: 12px;
+    }
+
+    .ingredientes-selecionados-resumo {
+        font-size: 14px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .modal-ingredientes-buttons {
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-ingredientes {
+        padding: 12px 20px;
+        font-size: 15px;
+        width: 100%;
+    }
+
+    .btn-ingredientes-confirmar {
+        min-width: unset;
+    }
+}
+
+@media (max-width: 600px) {
+    .modal-ingredientes-container {
+        padding: 0;
+        align-items: flex-end;
+    }
+
+    .modal-ingredientes-content {
+        max-height: 95vh;
+        border-radius: 25px 25px 0 0;
+    }
+
+    .ingredientes-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 10px;
+    }
+
+    .modal-ingredientes-header h2 {
+        font-size: 24px;
+    }
+
+    .ingredientes-counter {
+        min-width: 100px;
+        font-size: 12px;
+    }
+
+    .modal-ingredientes-footer {
+        flex-direction: column-reverse;
+    }
+
+    .modal-ingredientes-buttons {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .btn-ingredientes-confirmar {
+        min-width: 100%;
+    }
+}
+
+/* ============================================================
+   ESTILOS PARA BOTÕES DE ENTREGA/RETIRADA - PROFISSIONAL
+   ============================================================ */
+
+.delivery-options-container {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    padding: 25px;
+    border-radius: 15px;
+    border: 2px solid #e8eaed;
+    margin-bottom: 20px;
+}
+
+.delivery-options-container label {
+    display: block;
+    font-weight: 700;
+    color: #1a1a1a;
+    font-size: 16px;
+    margin-bottom: 18px;
+    letter-spacing: -0.3px;
+}
+
+.delivery-options-wrapper {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.delivery-option-card {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+}
+
+.delivery-option-card input[type="radio"] {
+    display: none;
+}
+
+.delivery-option-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 18px 20px;
+    border: 2.5px solid #e8eaed;
+    border-radius: 14px;
+    cursor: pointer;
+    background: white;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-weight: 600;
+    font-size: 16px;
+    color: #666;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    min-height: 70px;
+}
+
+.delivery-option-label i {
+    font-size: 24px;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.delivery-option-card input[type="radio"]:checked + .delivery-option-label {
+    background: linear-gradient(135deg, #ae00ff 0%, #ff6b6b 100%);
+    color: white;
+    border-color: #ae00ff;
+    box-shadow: 0 12px 32px rgba(174, 0, 255, 0.25);
+    transform: translateY(-3px);
+}
+
+.delivery-option-card input[type="radio"]:checked + .delivery-option-label i {
+    transform: scale(1.2);
+    animation: pulse 0.5s ease-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+    100% {
+        transform: scale(1.2);
+    }
+}
+
+.delivery-option-label:hover {
+    border-color: #ae00ff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(174, 0, 255, 0.15);
+}
+
+.delivery-option-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.delivery-option-title {
+    font-weight: 700;
+    font-size: 17px;
+    margin-bottom: 3px;
+}
+
+.delivery-option-price {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.delivery-option-card input[type="radio"]:checked + .delivery-option-label .delivery-option-price {
+    opacity: 1;
+}
+
+/* Responsive para delivery/retirada */
+@media (max-width: 768px) {
+    .delivery-options-wrapper {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .delivery-option-card {
+        min-width: 100%;
+    }
+
+    .delivery-option-label {
+        padding: 16px 18px;
+        font-size: 15px;
+        min-height: 65px;
+    }
+
+    .delivery-option-label i {
+        font-size: 20px;
+    }
+
+    .delivery-option-title {
+        font-size: 16px;
+    }
+
+    .delivery-option-price {
+        font-size: 13px;
+    }
+}
