@@ -903,6 +903,7 @@ cardapio.metodos = {
                     qty: Number(p.qntd || p.quantity || 1),
                     unit_price_cents: Number(p.unit_price_cents ?? Math.round((p.price || 0) * 100)),
                     options: {
+                        tamanho: p.dsc || p.size || p.tamanho || null,
                         bases: p.bases || [],
                         frutas: p.frutas || [],
                         coberturas: p.coberturas || [],

@@ -1,39 +1,44 @@
 var MENU = {
     "acai": [
         {
-            "id": "acai-p",
+            "id": "acai-200g",
             "img": "img/acai-tigela.png",
-            "name": "Açaí - Tamanho P",
-            "dsc": "P (Pequeno)",
-            "price": 12.00
+            "name": "Açaí no Pote 200g",
+            "dsc": "200g",
+            "price": 12.00,
+            "no_ingredients": true
         },
         {
-            "id": "acai-m",
+            "id": "acai-300g",
             "img": "img/acai-tigela.png",
-            "name": "Açaí - Tamanho M",
-            "dsc": "M (Médio)",
-            "price": 15.00
+            "name": "Açaí no Pote 300g",
+            "dsc": "300g",
+            "price": 15.00,
+            "no_ingredients": true
         },
         {
-            "id": "acai-g",
+            "id": "acai-500g",
             "img": "img/acai-tigela.png",
-            "name": "Açaí - Tamanho G",
-            "dsc": "G (Grande)",
-            "price": 18.00
+            "name": "Açaí no Pote 500g",
+            "dsc": "500g",
+            "price": 18.00,
+            "no_ingredients": true
         },
         {
-            "id": "acai-gg",
-            "img": "img/acai-tigela.png",
-            "name": "Açaí - Tamanho GG",
-            "dsc": "GG",
-            "price": 22.00
+            "id": "acai-zero-250ml",
+            "img": "img/Pote%20a%C3%A7a%C3%AD%20no%20grau%20-%20zero%20250ml.png",
+            "name": "Açaí no Grau Zero 250ml",
+            "dsc": "250ml",
+            "price": 16.00,
+            "no_ingredients": true
         },
         {
-            "id": "acai-extrag",
-            "img": "img/acai-tigela.png",
-            "name": "Açaí - Tamanho Extra G",
-            "dsc": "Extra G",
-            "price": 25.00
+            "id": "acai-leitinho-250ml",
+            "img": "img/Pote%20creme%20de%20Leitinho%20250ml.png",
+            "name": "Pote Creme de Leitinho 250ml",
+            "dsc": "250ml",
+            "price": 17.00,
+            "no_ingredients": true
         }
     ]
 }
