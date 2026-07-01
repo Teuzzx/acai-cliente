@@ -155,11 +155,24 @@ cardapio.metodos = {
         // garantir animações
         $("#itensCardapio .scroll-animate").each(function () {
             if (window.scrollAnimations && typeof window.scrollAnimations.animateElement === 'function') {
-                window.scrollAnimations.animateElement(this)
+                // tentar usar o gerenciador de animações (IntersectionObserver)
+                try {
+                    window.scrollAnimations.animateElement(this)
+                } catch (err) {
+                    $(this).addClass('in-view')
+                }
             } else {
                 $(this).addClass('in-view')
             }
         })
+
+        // Compat fallback: alguns navegadores móveis podem não ativar o observer imediatamente.
+        // Garantir visibilidade após pequeno atraso.
+        setTimeout(() => {
+            $("#itensCardapio .scroll-animate").each(function () {
+                if (!$(this).hasClass('in-view')) $(this).addClass('in-view')
+            })
+        }, 300)
 
         // remove active (não há abas)
         $(".container-menu a").removeClass('active')
