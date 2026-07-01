@@ -6,7 +6,7 @@ var MENU = {
             "name": "Tigela 200g",
             "dsc": "200g",
             "price": 12.00,
-            "no_ingredients": true
+            "no_ingredients": false
         },
         {
             "id": "acai-tigela-300g",
@@ -14,7 +14,7 @@ var MENU = {
             "name": "Tigela 300g",
             "dsc": "300g",
             "price": 15.00,
-            "no_ingredients": true
+            "no_ingredients": false
         },
         {
             "id": "acai-tigela-500g",
@@ -22,7 +22,7 @@ var MENU = {
             "name": "Tigela 500g",
             "dsc": "500g",
             "price": 18.00,
-            "no_ingredients": true
+            "no_ingredients": false
         }
     ]
 }

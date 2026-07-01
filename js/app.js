@@ -28,7 +28,8 @@ function isRetiradaType(value) {
 
 cardapio.eventos = {
     init: () => {
-        cardapio.metodos.obterItensCardapio('acai')
+        // Renderiza o cardápio completo (tigelas + potes) sem abas
+        cardapio.metodos.obterCardapioCompleto()
         cardapio.metodos.carregarBotaoReserva()
         cardapio.metodos.carregarBotaoLigar()
         cardapio.metodos.carregarBotaoWhatsapp()
@@ -126,6 +127,44 @@ cardapio.metodos = {
 
     },
 
+    // Renderiza o cardápio completo em sequência: Açaí Tigela (montável) e Potes
+    obterCardapioCompleto: () => {
+        $("#itensCardapio").html('')
+        $("#btnVerMais").addClass('hidden')
+
+        const sections = [
+            { key: 'acai', title: 'AÇAÍ TIGELA (MONTÁVEL)' },
+            { key: 'potes', title: 'POTES' }
+        ]
+
+        sections.forEach(sec => {
+            // seção título
+            $("#itensCardapio").append(`<div class="col-12"><div class="section-header"><h3>${sec.title}</h3></div></div>`)
+
+            const filtro = MENU[sec.key] || []
+            $.each(filtro, (i, e) => {
+                let temp = cardapio.templates.item.replace(/\${img}/g, e.img)
+                    .replace(/\${nome}/g, e.name)
+                    .replace(/\${preco}/g, e.price.toFixed(2).replace('.', ','))
+                    .replace(/\${id}/g, e.id)
+
+                $("#itensCardapio").append(temp)
+            })
+        })
+
+        // garantir animações
+        $("#itensCardapio .scroll-animate").each(function () {
+            if (window.scrollAnimations && typeof window.scrollAnimations.animateElement === 'function') {
+                window.scrollAnimations.animateElement(this)
+            } else {
+                $(this).addClass('in-view')
+            }
+        })
+
+        // remove active (não há abas)
+        $(".container-menu a").removeClass('active')
+    },
+
     // Diminuir a quantidade do item no cardapio
     diminuirQuantidade: (id) => {
         let qntdAtual = parseInt($("#qntd-" + id).text())
@@ -148,14 +187,15 @@ cardapio.metodos = {
         let qntdAtual = parseInt($('#qntd-' + id).text())
 
         if (qntdAtual > 0) {
-            //obter a categoria ativa
-            var categoria = $(".container-menu a.active").attr('id').split('menu-')[1]
-
-            //Obtem a lista de itens
-            let filtro = MENU[categoria]
-
-            // obtem o item
-            let item = $.grep(filtro, (e, i) => { return e.id == id })
+            // Como não usamos mais abas, localizar o produto por id em todas as categorias
+            let item = []
+            for (const cat in MENU) {
+                const found = $.grep(MENU[cat], (e) => { return e.id == id })
+                if (found && found.length > 0) {
+                    item = found
+                    break
+                }
+            }
 
             if (item.length > 0) {
                 // Como agora cada item pode ter ingredientes diferentes, vamos adicionar como um novo item se for aa
