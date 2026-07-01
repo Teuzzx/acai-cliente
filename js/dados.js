@@ -1,64 +1,145 @@
 var MENU = {
     "acai": [
         {
-            "id": "acai-200g",
+            "id": "acai-tigela-200g",
             "img": "img/acai-tigela.png",
-            "name": "Açaí no Pote 200g",
+            "name": "Tigela 200g",
             "dsc": "200g",
             "price": 12.00,
             "no_ingredients": true
         },
         {
-            "id": "acai-300g",
+            "id": "acai-tigela-300g",
             "img": "img/acai-tigela.png",
-            "name": "Açaí no Pote 300g",
+            "name": "Tigela 300g",
             "dsc": "300g",
             "price": 15.00,
             "no_ingredients": true
         },
         {
-            "id": "acai-500g",
+            "id": "acai-tigela-500g",
             "img": "img/acai-tigela.png",
-            "name": "Açaí no Pote 500g",
+            "name": "Tigela 500g",
             "dsc": "500g",
             "price": 18.00,
-            "no_ingredients": true
-        },
-        {
-            "id": "acai-zero-250ml",
-            "img": "img/Pote%20a%C3%A7a%C3%AD%20no%20grau%20-%20zero%20250ml.png",
-            "name": "Açaí no Grau Zero 250ml",
-            "dsc": "250ml",
-            "price": 16.00,
-            "no_ingredients": true
-        },
-        {
-            "id": "acai-leitinho-250ml",
-            "img": "img/Pote%20creme%20de%20Leitinho%20250ml.png",
-            "name": "Pote Creme de Leitinho 250ml",
-            "dsc": "250ml",
-            "price": 17.00,
             "no_ingredients": true
         }
     ]
 }
 
-// Novas categorias: picolés, potes, sorvetes
-MENU['picoles'] = [
-    { id: 'picole-chocolate', img: 'https://via.placeholder.com/300x200?text=Picole+Chocolate', name: 'Picolé Chocolate', dsc: 'Unidade', price: 6.00, no_ingredients: true },
-    { id: 'picole-fruta', img: 'https://via.placeholder.com/300x200?text=Picole+Fruta', name: 'Picolé Fruta', dsc: 'Unidade', price: 5.00, no_ingredients: true }
-]
-
 MENU['potes'] = [
-    { id: 'pote-1l', img: 'https://via.placeholder.com/300x200?text=Pote+1L', name: 'Pote 1L', dsc: '1L', price: 45.00, no_ingredients: true },
-    { id: 'pote-2l', img: 'https://via.placeholder.com/300x200?text=Pote+2L', name: 'Pote 2L', dsc: '2L', price: 85.00, no_ingredients: true }
-]
-
-MENU['sorvetes'] = [
-    { id: 'sorvete-700', img: 'https://via.placeholder.com/300x200?text=Sorvete+700g', name: 'Monte Seu Sorvete 700g', dsc: '700g', price: 33.75, no_ingredients: true },
-    { id: 'sorvete-1kg', img: 'https://via.placeholder.com/300x200?text=Sorvete+1kg', name: 'Monte Seu Sorvete 1kg', dsc: '1kg', price: 45.80, no_ingredients: true },
-    { id: 'sorvete-500', img: 'https://via.placeholder.com/300x200?text=Sorvete+500g', name: 'Monte Seu Sorvete 500g', dsc: '500g', price: 22.89, no_ingredients: true },
-    { id: 'sorvete-400', img: 'https://via.placeholder.com/300x200?text=Sorvete+400g', name: 'Monte Seu Sorvete 400g', dsc: '400g', price: 18.00, no_ingredients: true }
+    {
+        "id": "acai-zero-250ml",
+        "img": "img/Pote%20a%C3%A7a%C3%AD%20no%20grau%20-%20zero%20250ml.png",
+        "name": "Açaí no Grau Zero 250ml",
+        "dsc": "250ml",
+        "price": 16.00,
+        "no_ingredients": true
+    },
+    {
+        "id": "acai-leitinho-250ml",
+        "img": "img/Pote%20creme%20de%20Leitinho%20250ml.png",
+        "name": "Pote Creme de Leitinho 250ml",
+        "dsc": "250ml",
+        "price": 17.00,
+        "no_ingredients": true
+    },
+    {
+        "id": "acai-morango-250ml",
+        "img": "img/Pote%20a%C3%A7a%C3%AD%20com%20morango!.png",
+        "name": "Pote Açaí com Morango 250ml",
+        "dsc": "250ml",
+        "price": 18.00,
+        "no_ingredients": true
+    },
+    {
+        "id": "acai-leite-condensado-150ml",
+        "img": "img/Pote%20A%C3%A7a%C3%AD%20com%20leite%20condensado.png",
+        "name": "Pote Açaí com Leite Condensado 150ml",
+        "dsc": "150ml",
+        "price": 17.50,
+        "no_ingredients": true
+    },
+    {
+        "id": "creme-morango-250ml",
+        "img": "img/Pote%20Creme%20de%20Morango.png",
+        "name": "Pote Creme de Morango 250ml",
+        "dsc": "250ml",
+        "price": 18.50,
+        "no_ingredients": true
+    },
+    {
+        "id": "creme-cupuacu-250ml",
+        "img": "img/Pote%20creme%20de%20Cupua%C3%A7u.png",
+        "name": "Pote Creme de Cupuaçu 250ml",
+        "dsc": "250ml",
+        "price": 19.00,
+        "no_ingredients": true
+    },
+    {
+        "id": "pistache-150ml",
+        "img": "img/Pote%20Pistache.png",
+        "name": "Pote Pistache 150ml",
+        "dsc": "150ml",
+        "price": 17.00,
+        "no_ingredients": true
+    },
+    {
+        "id": "avela-150ml",
+        "img": "img/Pote%20Avel%C3%A3.png",
+        "name": "Pote Avelã 150ml",
+        "dsc": "150ml",
+        "price": 17.00,
+        "no_ingredients": true
+    },
+    {
+        "id": "dulce-de-leche-150ml",
+        "img": "img/Pote%20Dulce%20de%20Leche.png",
+        "name": "Pote Dulce de Leche 150ml",
+        "dsc": "150ml",
+        "price": 17.50,
+        "no_ingredients": true
+    },
+    {
+        "id": "acai-tradicional-250ml",
+        "img": "img/Pote%20Aca%C3%AD%20Tradicional.png",
+        "name": "Pote Açaí Tradicional 250ml",
+        "dsc": "250ml",
+        "price": 18.00,
+        "no_ingredients": true
+    },
+    {
+        "id": "pipoca-caramelizada-150ml",
+        "img": "img/Pote%20Pipoca%20caramelizada.png",
+        "name": "Pote Pipoca Caramelizada 150ml",
+        "dsc": "150ml",
+        "price": 17.50,
+        "no_ingredients": true
+    },
+    {
+        "id": "caramelo-salgado-150ml",
+        "img": "img/Pote%20Caramelo%20Salgado.png",
+        "name": "Pote Caramelo Salgado 150ml",
+        "dsc": "150ml",
+        "price": 17.50,
+        "no_ingredients": true
+    },
+    {
+        "id": "chocolate-belga-150ml",
+        "img": "img/Pote%20Chocolate%20Belga.png",
+        "name": "Pote Chocolate Belga 150ml",
+        "dsc": "150ml",
+        "price": 18.00,
+        "no_ingredients": true
+    },
+    {
+        "id": "cookies-cream-150ml",
+        "img": "img/Pote%20Cookies%20%26%20Cream.png",
+        "name": "Pote Cookies & Cream 150ml",
+        "dsc": "150ml",
+        "price": 18.00,
+        "no_ingredients": true
+    }
 ]
 
 var INGREDIENTES = {

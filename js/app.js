@@ -815,6 +815,7 @@ cardapio.metodos = {
             price: p.price,
             qntd: p.qntd,
             dsc: p.dsc || null,
+            tamanho: p.dsc || p.size || p.tamanho || null,
             bases: p.bases || [],
             frutas: p.frutas || [],
             coberturas: p.coberturas || [],
@@ -904,6 +905,7 @@ cardapio.metodos = {
                     unit_price_cents: Number(p.unit_price_cents ?? Math.round((p.price || 0) * 100)),
                     options: {
                         tamanho: p.dsc || p.size || p.tamanho || null,
+                        tamanho_label: p.dsc || p.size || p.tamanho || null,
                         bases: p.bases || [],
                         frutas: p.frutas || [],
                         coberturas: p.coberturas || [],
@@ -979,7 +981,7 @@ cardapio.metodos = {
             let texto = ' *NOVO PEDIDO DE AÇAÍ*\n\n';
             $.each(MEU_CARRINHO, (i, e) => {
                 texto += ` *Produto:* ${e.name}\n`;
-                texto += ` *Tamanho:* ${e.dsc}\n`;
+                texto += ` *Tamanho:* ${e.dsc || e.tamanho || e.size || e.tamanho_ml || '---'}\n`;
                 if (e.bases && e.bases.length) texto += `*Base:* ${e.bases.join(', ')}\n`;
                 if (e.frutas && e.frutas.length) texto += `*Frutas:* ${e.frutas.join(', ')}\n`;
                 if (e.coberturas.length > 0) texto += `*Coberturas:* ${e.coberturas.join(', ')}\n`;
@@ -1059,7 +1061,7 @@ cardapio.metodos = {
             const itens = Array.isArray(p.produtos) ? p.produtos : []
             for (let idx = 0; idx < itens.length; idx++) {
                 const it = itens[idx]
-                const tamanho = it.dsc || it.size || it.tamanho || ''
+                const tamanho = it.dsc || it.size || it.tamanho || it.tamanho_label || it.options?.tamanho || it.options?.tamanho_label || ''
                 const preco = (it.price !== undefined ? Number(it.price) : (it.unit_price_cents ? Number(it.unit_price_cents) / 100 : 0))
                 const q = Number(it.qntd || it.qty || it.quantity || 1)
                 const valorItem = (preco * q).toFixed(2).replace('.', ',')
