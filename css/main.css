@@ -366,6 +366,16 @@ a.navbar-brand {
     background-image: none;
 }
 
+/* Garantir que o background do cardapio não cubra os itens (foco mobile) */
+.cardapio .background-cardapio {
+    z-index: 0;
+}
+
+#itensCardapio {
+    position: relative;
+    z-index: 1;
+}
+
 .container-menu {
     margin-bottom: 40px;
 }
@@ -412,6 +422,30 @@ a.navbar-brand {
     margin-top: auto;
     gap: 8px;
     width: 100%;
+}
+
+/* Garantir alinhamento uniforme dos cards no grid */
+#itensCardapio .card-scroll {
+    display: flex;
+    align-items: stretch;
+}
+
+#itensCardapio .card-item {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#itensCardapio .card-item .img-produto {
+    flex: 0 0 auto;
+}
+
+#itensCardapio .card-item .dados-produto {
+    flex: 0 0 auto;
+}
+
+#itensCardapio .card-item .add-carrinho {
+    flex: 0 0 auto;
 }
 
 .btn-menos {

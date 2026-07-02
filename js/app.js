@@ -1,5 +1,23 @@
 $(document).ready(function () {
-    cardapio.eventos.init()
+    try {
+        cardapio.eventos.init()
+    } catch (err) {
+        console.error('Erro na inicialização do cardápio:', err)
+        // mostrar overlay de erro visível para o usuário em mobile
+        (function showErrorOverlay(message){
+            try {
+                var $overlay = $('#debug-overlay')
+                if ($overlay.length === 0) {
+                    $overlay = $('<div id="debug-overlay" style="position:fixed;left:8px;right:8px;bottom:12px;padding:10px;background:#fff2f2;color:#800;border:2px solid #f00;border-radius:8px;z-index:99999;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,0.12)"></div>')
+                    $('body').append($overlay)
+                }
+                $overlay.text('Erro: ' + message)
+            } catch (e) { console.error('Falha ao mostrar overlay de debug', e) }
+        })(err && err.message ? err.message : String(err))
+
+        // tentar fallback de renderização direta a partir do MENU
+        try { cardapio.metodos.fallbackRenderAll() } catch (e) { console.error('fallbackRenderAll falhou', e) }
+    }
 })
 
 var cardapio = {}
@@ -129,53 +147,115 @@ cardapio.metodos = {
 
     // Renderiza o cardápio completo em sequência: Açaí Tigela (montável) e Potes
     obterCardapioCompleto: () => {
-        $("#itensCardapio").html('')
+        const $container = $("#itensCardapio")
+        if ($container.length === 0) {
+            console.error('Elemento #itensCardapio não encontrado no DOM')
+            return
+        }
+
+        $container.html('')
         $("#btnVerMais").addClass('hidden')
+        $container.removeClass('hidden')
+        $("#cardapio").addClass('in-view').css({ 'opacity': 1, 'visibility': 'visible' })
 
         const sections = [
             { key: 'acai', title: 'AÇAÍ TIGELA (MONTÁVEL)' },
             { key: 'potes', title: 'POTES' }
         ]
 
+        console.log('Renderizando cardápio completo, seções:', sections.map(s => s.key))
+
         sections.forEach(sec => {
             // seção título
-            $("#itensCardapio").append(`<div class="col-12"><div class="section-header"><h3>${sec.title}</h3></div></div>`)
+            $container.append(`<div class="col-12"><div class="section-header"><h3>${sec.title}</h3></div></div>`)
 
             const filtro = MENU[sec.key] || []
-            $.each(filtro, (i, e) => {
-                let temp = cardapio.templates.item.replace(/\${img}/g, e.img)
-                    .replace(/\${nome}/g, e.name)
-                    .replace(/\${preco}/g, e.price.toFixed(2).replace('.', ','))
-                    .replace(/\${id}/g, e.id)
+            console.log('Seção', sec.key, 'itens:', filtro.length)
 
-                $("#itensCardapio").append(temp)
-            })
-        })
-
-        // garantir animações
-        $("#itensCardapio .scroll-animate").each(function () {
-            if (window.scrollAnimations && typeof window.scrollAnimations.animateElement === 'function') {
-                // tentar usar o gerenciador de animações (IntersectionObserver)
-                try {
-                    window.scrollAnimations.animateElement(this)
-                } catch (err) {
-                    $(this).addClass('in-view')
-                }
-            } else {
-                $(this).addClass('in-view')
+            if (!cardapio.templates || !cardapio.templates.item) {
+                console.warn('Template de item não encontrado, renderizando fallback simples')
             }
+
+            $.each(filtro, (i, e) => {
+                let temp = ''
+                if (cardapio.templates && cardapio.templates.item) {
+                    temp = cardapio.templates.item.replace(/\${img}/g, e.img)
+                        .replace(/\${nome}/g, e.name)
+                        .replace(/\${preco}/g, e.price.toFixed(2).replace('.', ','))
+                        .replace(/\${id}/g, e.id)
+                } else {
+                    temp = `\n<div class="col-12 col-lg-3 col-md-3 col-sm-6 mb-5 card-scroll">\n<div class="card card-item" id="${e.id}">\n<div class="img-produto"><img src="${e.img}" alt=""></div>\n<p class="title-produto text-center mt-4"><strong>${e.name}</strong></p>\n<p class="price-produto text-center"><strong>R$ ${e.price.toFixed(2).replace('.', ',')}</strong></p>\n</div>\n</div>`
+                }
+
+                $container.append(temp)
+
+                // garantir visibilidade imediata por item (fallback para mobile)
+                const $last = $container.children().last()
+                $last.find('.scroll-animate').addBack('.scroll-animate').each(function () { $(this).addClass('in-view') })
+            })
         })
 
         // Compat fallback: alguns navegadores móveis podem não ativar o observer imediatamente.
         // Garantir visibilidade após pequeno atraso.
         setTimeout(() => {
+            $("#cardapio").addClass('in-view').css({ 'opacity': 1, 'visibility': 'visible' })
+            $("#cardapio .scroll-animate, #cardapio .card-scroll").addClass('in-view')
+
             $("#itensCardapio .scroll-animate").each(function () {
                 if (!$(this).hasClass('in-view')) $(this).addClass('in-view')
             })
+
+            // Se nenhum item foi renderizado, mostrar mensagem de erro amigável
+            if ($container.children().length === 0) {
+                console.warn('#itensCardapio está vazio após renderização')
+                $container.html('<div class="col-12"><p class="carrinho-vazio">Nenhum item disponível (erro ao renderizar). Tente atualizar a página.</p></div>')
+            }
+
+            // Forçar visibilidade / z-index para mobile (fallback robusto)
+            try {
+                $container.css({ 'position': 'relative', 'z-index': 2, 'opacity': 1, 'display': 'flex', 'visibility': 'visible' })
+                $container.find('.card-scroll, .card-item').each(function () {
+                    $(this).css({ 'opacity': 1, 'visibility': 'visible', 'transform': 'none' })
+                    $(this).removeClass('hidden')
+                })
+            } catch (e) { console.error('Erro ao aplicar fallback de visibilidade:', e) }
         }, 300)
 
         // remove active (não há abas)
         $(".container-menu a").removeClass('active')
+    },
+
+    // Render fallback simples acessível mesmo com erros: usa MENU para criar uma lista minimal
+    fallbackRenderAll: () => {
+        try {
+            var container = document.getElementById('itensCardapio')
+            if (!container) {
+                // criar container se não existir
+                container = document.createElement('div')
+                container.id = 'itensCardapio'
+                var target = document.querySelector('.cardapio .container') || document.body
+                var row = document.createElement('div')
+                row.className = 'row'
+                row.appendChild(container)
+                target.appendChild(row)
+            }
+            container.innerHTML = ''
+            for (const key in MENU) {
+                const titleEl = document.createElement('div')
+                titleEl.className = 'col-12'
+                titleEl.innerHTML = `<div class="section-header"><h3>${key.toUpperCase()}</h3></div>`
+                container.appendChild(titleEl)
+                const items = MENU[key] || []
+                items.forEach(i => {
+                    const col = document.createElement('div')
+                    col.className = 'col-12 col-lg-3 col-md-3 col-sm-6 mb-5'
+                    col.innerHTML = `<div class="card card-item"><div class="img-produto"><img src="${i.img}" style="max-width:100%;height:auto"></div><p class="title-produto text-center mt-4"><strong>${i.name}</strong></p><p class="price-produto text-center"><strong>R$ ${Number(i.price).toFixed(2).replace('.', ',')}</strong></p></div>`
+                    container.appendChild(col)
+                })
+            }
+        } catch (err) {
+            console.error('Erro no fallbackRenderAll:', err)
+        }
     },
 
     // Diminuir a quantidade do item no cardapio

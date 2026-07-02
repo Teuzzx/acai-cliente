@@ -34,6 +34,19 @@
 /* Tablets e Celulares => 0px a 767px (col) */
 @media (max-width: 767px) {
 
+    .cardapio.section-animate,
+    .cardapio .scroll-animate,
+    .cardapio .card-scroll {
+        opacity: 1 !important;
+        visibility: visible !important;
+        animation-play-state: running !important;
+    }
+
+    .cardapio .card-scroll:not(.in-view) {
+        animation: none !important;
+        transform: none !important;
+    }
+
     .no-mobile {
         display: none;
     }
