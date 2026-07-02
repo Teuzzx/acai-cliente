@@ -380,6 +380,24 @@ a.navbar-brand {
     margin-bottom: 40px;
 }
 
+/* Seção: títulos do cardápio (AÇAÍ TIGELA / POTES) */
+.section-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 18px 0 6px 0;
+}
+
+.section-header h3 {
+    text-align: center;
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 0.4px;
+    margin: 0;
+}
+
 .card-item {
     height: auto;
     min-height: 320px;
